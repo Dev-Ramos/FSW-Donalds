@@ -4,6 +4,8 @@ import Link from 'next/link'
 // import { useParams } from 'next/navigation'
 import React from 'react'
 
+import { priceFormatter } from '@/helpers/currency'
+
 interface ProductListProps {
   products: Product[],
 }
@@ -17,10 +19,7 @@ const ProductList = ({products}: ProductListProps) => {
           <div>
             <h3 className='text-sm font-medium'>{product.name}</h3>
             <p className='line-clamp-2 text-sm text-muted-foreground'>{product.description}</p>
-            <p className="pt-3 font-semibold text-sm">{new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(product.price)}</p>
+            <p className="pt-3 font-semibold text-sm">{priceFormatter(product.price)}</p>
           </div>
           <div className="relative min-h-[82px] min-w-[120px]">
             <Image src={product.imageUrl} alt={product.name} fill className='rounded-lg object-contain'/>
