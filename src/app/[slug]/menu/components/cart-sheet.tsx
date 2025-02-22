@@ -1,20 +1,23 @@
 import React, { useContext } from 'react'
 
-import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 
 import { CartContext } from '../context/cart'
+import CartProductItem from './cart-product-item'
 
 const CartSheet = () => {
   const {isOpen, toggleCart, products} = useContext(CartContext)
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}> 
-      <SheetContent>
-        <SheetHeader>
+      <SheetContent className='w-[85%]'>
+        <SheetTitle>
           Sacola de pedidos
-        </SheetHeader>
-        {products.map(product => (
-          <p key={product.id}>{product.name} - {product.quantity} </p>
-        ))}
+        </SheetTitle>
+        <div className="py-5">
+          {products.map(product => (
+              <CartProductItem key={product.id} product={product}/>
+            ))}
+        </div>
       </SheetContent>
     </Sheet>
   )
