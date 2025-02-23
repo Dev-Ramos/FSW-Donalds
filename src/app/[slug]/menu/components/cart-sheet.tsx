@@ -13,7 +13,7 @@ const CartSheet = () => {
         <SheetTitle>
           Sacola de pedidos
         </SheetTitle>
-        <div className="py-5">
+        <div className="py-5 space-y-3">
           {products.map(product => (
               <CartProductItem key={product.id} product={product}/>
             ))}
