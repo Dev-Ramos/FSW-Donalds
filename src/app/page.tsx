@@ -1,11 +1,7 @@
-import React from 'react'
+import { redirect } from 'next/navigation'
 
-const HomePage = () => {
-  return (
-    <h1>
-      Hello World
-    </h1>
-  )
+const InitialPage = () => {
+  redirect("http://localhost:3000/fsw-donalds")
 }
 
-export default HomePage
+export default InitialPage
