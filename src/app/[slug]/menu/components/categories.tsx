@@ -2,11 +2,14 @@
 import { Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { priceFormatter } from "@/helpers/currency";
 
+import { CartContext } from "../context/cart";
+import CartSheet from "./cart-sheet";
 import ProductList from "./products-list";
 
 interface RestaurantCategoriesProps {
@@ -20,6 +23,7 @@ type MenuCategoryWithProducts = Prisma.MenuCategoryGetPayload<{
 }>;
 
 const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
+  const { totalItems, totalPrice, toggleCart } = useContext(CartContext)
   const [selectedCategory, setSelectedCategory] =
     useState<MenuCategoryWithProducts>(restaurant.menuCategories[0]);
   const handleCategoryClick = (category: MenuCategoryWithProducts) => {
@@ -67,6 +71,19 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
       </ScrollArea>
       <h3 className="px-5 pt-2 font-semibold">{selectedCategory.name}</h3>
       <ProductList products={selectedCategory.products} />
+      {totalItems > 0 && (
+        <div className="fixed left-0 right-0 bottom-0 flex w-full items-center justify-between bg-white px-5 py-3">
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">Total dos pedidos</p>
+            <p className="text-sm font-semibold">{priceFormatter(totalPrice)}
+              <span className="text-xs font-normal text-muted-foreground">
+                / {totalItems} { totalItems>1 ? 'itens' : 'item'}</span>
+            </p>
+          </div>
+          <Button onClick={toggleCart}>Ver sacola</Button>
+          <CartSheet/>
+        </div>
+      )}
     </div>
   );
 };
