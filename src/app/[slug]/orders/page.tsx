@@ -24,8 +24,8 @@ const OrdersPage = async({ searchParams }: OrderPageProps) => {
       createdAt: 'desc'
     },
     where: {
-    costumerCpf: removeCpfPunctuation(cpf)
-    }, 
+      costumerCpf: removeCpfPunctuation(cpf), 
+    },
     include: {
       restaurant: {
         select: {
@@ -37,7 +37,7 @@ const OrdersPage = async({ searchParams }: OrderPageProps) => {
         include: {
           product: true
         }
-      }
+      },
     }
   })
   

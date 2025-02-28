@@ -1,6 +1,8 @@
+'use client'
 import { OrderStatus, Prisma } from '@prisma/client'
 import { ChevronLeftIcon, ScrollTextIcon } from 'lucide-react'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -13,7 +15,7 @@ interface OrderListProps{
       restaurant: {
         select: {
           name: true,
-          avatarImageUrl: true
+          avatarImageUrl: true,
         }
       },
       orderProducts: {
@@ -32,11 +34,12 @@ const getOrderStatusLabel = (status: OrderStatus) => {
   return ""
   }
 
-const OrderList = ({ orders } : OrderListProps) => {
+const OrderList = ({ orders }: OrderListProps) => {
   
   return (
     <div className='space-y-6 p-6'>
-      <Button variant='secondary' size='icon' className='rounded-full'>
+      <Button variant='secondary' size='icon' className='rounded-full'
+      onClick={()=>redirect(`/fsw-donalds/menu?consumptionMethod=${orders[0].consumptionMethod}`)}>
         <ChevronLeftIcon/>
       </Button>
       <div className="flex items-center gap-3">
