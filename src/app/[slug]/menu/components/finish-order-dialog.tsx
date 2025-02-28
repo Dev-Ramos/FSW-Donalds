@@ -111,8 +111,8 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Seu nome</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Digite seu nome..." {...field} />
+                    <FormControl >
+                      <Input {...field} type="text" alt="nome"/>
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -126,8 +126,8 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                     <FormLabel>Seu CPF</FormLabel>
                     <FormControl>
                       <PatternFormat
-                        placeholder="Digite seu CPF..."
                         format="###.###.###-##"
+                        alt="CPF"
                         customInput={Input}
                         {...field}
                       />

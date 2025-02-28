@@ -12,7 +12,8 @@ interface RestaurantHeaderProps {
 
 export const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
   const router = useRouter();
-  const handleBackClick = () => router.back();
+  const handleBackClick = () => router.push('/fsw-donalds')
+
   return (
     <div className="relative h-[250px] w-full">
       <Image
@@ -33,6 +34,7 @@ export const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
         variant="secondary"
         size="icon"
         className="absolute right-4 top-4 z-50 rounded-full"
+        onClick={()=>router.push('/fws-donalds/orders')}
       >
         <ShoppingBagIcon />
       </Button>
