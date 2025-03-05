@@ -14,7 +14,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "FSW Donalds",
   description: "A self-order application",
-  metadataBase: new URL("http://localhost:3000/fsw-donalds"),
 };
 
 export default function RootLayout({
