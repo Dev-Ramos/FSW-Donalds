@@ -1,8 +1,8 @@
 "use server";
 
 import { ConsumptionMethod } from "@prisma/client";
-import { redirect } from "next/navigation";
 
+// import { redirect } from "next/navigation";
 import { removeCpfPunctuation } from "@/helpers/cpf";
 import { db } from "@/lib/prisma";
 
@@ -27,11 +27,11 @@ export const createOrder = async (input: CreateOrderInput) => {
   });
   const restaurant = await db.restaurant.findUnique({
     where: {
-      slug: input.slug
-    }
-  })
+      slug: input.slug,
+    },
+  });
   if (!restaurant) {
-    throw new Error('Restaurant is not found!')
+    throw new Error("Restaurant is not found!");
   }
   const productsWithPricesAndQuantity = input.products.map((product) => ({
     productId: product.id,
@@ -39,7 +39,7 @@ export const createOrder = async (input: CreateOrderInput) => {
     price: productsWithPrices.find((p) => p.id === product.id)!.price,
   }));
 
-  await db.order.create({
+  const order = await db.order.create({
     data: {
       status: "PENDING",
       costumerName: input.costumerName,
@@ -54,8 +54,9 @@ export const createOrder = async (input: CreateOrderInput) => {
         0,
       ),
       consumptionMethod: input.consumptionMethod,
-      restaurantId: restaurant.id
+      restaurantId: restaurant.id,
     },
   });
-  redirect(`/${input.slug}/orders?cpf=${removeCpfPunctuation(input.costumerCpf)}`)
+  // redirect(`/${input.slug}/orders?cpf=${removeCpfPunctuation(input.costumerCpf)}`)
+  return order
 };

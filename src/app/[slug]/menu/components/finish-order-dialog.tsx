@@ -2,12 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConsumptionMethod } from "@prisma/client";
+import { loadStripe } from "@stripe/stripe-js";
 import { Loader2Icon } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useContext, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
-import { toast } from "sonner";
 import z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { isValidCpf } from "@/helpers/cpf";
 
 import { createOrder } from "../action/create-order";
+import { createStripeCheckout } from "../action/create-stripe-checkout";
 import { CartContext } from "../context/cart";
 
 const formSchema = z.object({
@@ -60,7 +61,7 @@ type FormSchema = z.infer<typeof formSchema>;
 const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   const { slug } = useParams<{ slug: string }>();
   const { products } = useContext(CartContext);
-  const [isPeding, startTransition] = useTransition()
+  const [isPeding, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -77,16 +78,20 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
         "consumptionMethod",
       ) as ConsumptionMethod;
       startTransition(async () => {
-        await createOrder({
+        const order = await createOrder({
           consumptionMethod,
           costumerName: data.name,
           costumerCpf: data.cpf,
           products,
           slug,
         });
-        onOpenChange(false)
-        toast.success('Pedido finalizado com sucesso')
-      })
+        const { sessionId } = await createStripeCheckout({ products, orderId: order.id });
+        if(!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) 
+        stripe?.redirectToCheckout({
+          sessionId: sessionId
+        })
+      });
     } catch (error) {
       console.error(error);
     }
@@ -111,8 +116,8 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Seu nome</FormLabel>
-                    <FormControl >
-                      <Input {...field} type="text" alt="nome"/>
+                    <FormControl>
+                      <Input {...field} type="text" alt="nome" />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -143,7 +148,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                   className="rounded-full"
                   disabled={isPeding}
                 >
-                  {isPeding && <Loader2Icon className="animate-spin"/>}
+                  {isPeding && <Loader2Icon className="animate-spin" />}
                   Finalizar
                 </Button>
                 <DrawerClose asChild>
