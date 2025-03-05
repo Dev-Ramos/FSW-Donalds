@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       revalidatePath(
         `/${order.restaurant.slug}/menu?consumptionMethod=${order.consumptionMethod}`,
       );
-      break
+      break;
     }
     case "charge.failed": {
       const orderId = event.data.object.metadata?.orderId;
@@ -79,12 +79,8 @@ export async function POST(request: Request) {
       revalidatePath(
         `/${order.restaurant.slug}/menu?consumptionMethod=${order.consumptionMethod}`,
       );
-      break
+      break;
     }
-  }
-
-  const paymentIsSucessfull = event.type === "checkout.session.completed";
-  if (paymentIsSucessfull) {
   }
   return NextResponse.json({
     received: true,

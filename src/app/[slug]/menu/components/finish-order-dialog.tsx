@@ -85,7 +85,13 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
           products,
           slug,
         });
-        const { sessionId } = await createStripeCheckout({ products, orderId: order.id });
+        const { sessionId } = await createStripeCheckout({
+          products,
+          orderId: order.id,
+          consumptionMethod,
+          slug,
+          cpf: data.cpf
+        });
         if(!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return
         const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) 
         stripe?.redirectToCheckout({
