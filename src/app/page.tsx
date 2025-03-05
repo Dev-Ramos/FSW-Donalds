@@ -1,8 +1,11 @@
-// import { redirect } from 'next/navigation'
+'use client'
+
+import { redirect } from "next/navigation"
 
 const InitialPage = () => {
-  <p>hello world</p>
-  // redirect(process.env.NODE_ENV === 'production' ? '/fws-donalds' : 'http://localhost:3000/fsw-donalds')
+  const baseURL = window.location.origin.toString()
+  const initialPage = `${baseURL}/fsw-donalds`
+  redirect(`${initialPage}`)
 }
 
 export default InitialPage
