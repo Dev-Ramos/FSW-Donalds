@@ -13,6 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Two more models to be added:
+// model User {
+//   id String @id @default(uuid())
+//   name String
+//   email String @unique
+//   cpf String @unique
+//   password String
+//   adress UserAdress []
+// }
+// model UserAdress {
+//   id String @id @default(uuid())
+//   street String
+//   number String
+//   complement String
+//   city String
+//   state String
+//   country String
+//   zipCode String
+//   user User[]
+// }
+
 model Restaurant {
   id             String         @id @default(uuid())
   name           String
@@ -54,17 +75,18 @@ model Product {
 }
 
 model Order {
-  id                Int               @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   total             Float
   status            OrderStatus
+  paymentStatus     OrderPaymentStatus
   consumptionMethod ConsumptionMethod
-  restaurant        Restaurant        @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant        Restaurant         @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId      String
   orderProducts     OrderProduct[]
   costumerName      String
   costumerCpf       String
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model OrderProduct {
@@ -85,6 +107,12 @@ enum OrderStatus {
   PAYMENT_FAILED
   IN_PREPARATION
   FINISHED
+}
+
+enum OrderPaymentStatus {
+  PAYMENT_CONFIRMED
+  PAYMENT_FAILED
+  NO_PAYMENT
 }
 
 enum ConsumptionMethod {
