@@ -40,7 +40,7 @@ export const createStripeCheckout = async ({
       apiVersion: "2025-02-24.acacia",
     });
 
-    const searchParams = new URLSearchParams();
+    const searchParams = new URLSearchParams(); 
     searchParams.set("consumptionMethod", consumptionMethod);
     searchParams.set("cpf", removeCpfPunctuation(cpf));
     const session = await stripe.checkout.sessions.create({

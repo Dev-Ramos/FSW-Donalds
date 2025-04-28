@@ -41,6 +41,7 @@ export const createOrder = async (input: CreateOrderInput) => {
   const order = await db.order.create({
     data: {
       status: "PENDING",
+      paymentStatus: 'NO_PAYMENT',
       costumerName: input.costumerName,
       costumerCpf: removeCpfPunctuation(input.costumerCpf),
       orderProducts: {
