@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getRestaurantBySlug } from "@/data/get-restaurant-by-slug";
 
 import { ConsumptionMethodOption } from "./components/consumption-method-option";
+import TypeWriterComponent from "./components/type-writer";
 
 interface RestaurantPageProps {
   params: Promise<{ slug: string }>;
@@ -30,10 +31,17 @@ async function RestaurantPage({ params }: RestaurantPageProps) {
       {/* Bem-vindo */}
       <div className="space-y-2 pt-24 text-center">
         <h3 className="text-2xl font-semibold">Seja bem-vindo!</h3>
-        <p className="opacity-55">
-          Escolha como prefere aproveitar sua refeição. Estamos aqui para
-          oferecer praticidade e sabor em cada detalhe!
-        </p>
+        <TypeWriterComponent
+          className="opacity-55 h-20"
+          words={[
+            "Estamos aqui para oferecer praticidade e sabor em cada detalhe. Escolha como prefere aproveitar sua refeição.",
+          ]}
+          cursor={true}
+          typeSpeed={100}
+          deleteSpeed={50}
+          delaySpeed={2000}
+          loop={0}
+        />
       </div>
       {/* Cards */}
       <div className="grid grid-cols-2 gap-4 pt-14">
