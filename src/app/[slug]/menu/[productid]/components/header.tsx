@@ -1,19 +1,15 @@
 "use client";
 import { Product } from "@prisma/client";
 import { motion } from "framer-motion";
-import { ChevronLeftIcon, ShoppingBagIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import HeaderButtons from "../../components/header-buttons";
 
 interface ProductHeaderProps {
   product: Pick<Product, "name" | "imageUrl">;
 }
 
 const ProductHeader = ({ product }: ProductHeaderProps) => {
-  const router = useRouter();
-  const handleBackClick = () => router.back();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,7 +22,8 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         fill
         className="object-contain"
       />
-      <Button
+      <HeaderButtons/>
+      {/* <Button
         variant="secondary"
         size="icon"
         className="absolute left-4 top-4 z-50 rounded-full"
@@ -41,7 +38,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         onClick={() => router.push("/fws-donalds/orders")}
       >
         <ShoppingBagIcon />
-      </Button>
+      </Button> */}
     </motion.div>
   );
 };
