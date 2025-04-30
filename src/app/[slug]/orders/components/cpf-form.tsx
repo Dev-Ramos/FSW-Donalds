@@ -51,7 +51,7 @@ const CpfForm = () => {
   }
   const handleCancel = () => {
     router.back()
-  }
+  } 
   return (
     <Drawer open>
       <DrawerContent>
