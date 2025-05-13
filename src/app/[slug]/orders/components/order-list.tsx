@@ -108,14 +108,12 @@ const OrderList = ({ orders }: OrderListProps) => {
                 </p>
                 <p
                   className={`flex w-fit items-center gap-x-2 rounded-full px-2 py-1 text-xs font-semibold text-white ${
-                    (
-                      [OrderPaymentStatus.NO_PAYMENT] as OrderPaymentStatus[]
-                    ).includes(order.paymentStatus)
-                      ? "bg-red-500"
-                      : "bg-gray-200 text-gray-500"
+                    (order.paymentStatus === 'PAYMENT_FAILED' || order.paymentStatus === 'NO_PAYMENT')
+                      ? "bg-red-600"
+                      : "bg-green-400 text-green-600"
                   } ${order.paymentStatus === "PAYMENT_CONFIRMED" ? "bg-green-200 text-green-600" : "bg-gray-200 text-gray-500"}`}
                 >
-                  <BadgeDollarSignIcon size={22} className="text-green-600" />
+                  <BadgeDollarSignIcon size={22} className={`${order.paymentStatus === 'PAYMENT_CONFIRMED' ? 'text-green-600' : 'text-white'}`} />
                   {getOrderPaymentStatusLabel(order.paymentStatus)}
                 </p>
               </div>

@@ -29,7 +29,7 @@ const CartSheet = () => {
   
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
-      <SheetContent className="w-[85%]">
+      <SheetContent className="w-[90%] p-3">
         <motion.div
           animate={{ opacity: [0, 1], y: [20, 0] }}
           transition={{ duration: 0.7, delay: 0.2 }}
@@ -41,7 +41,7 @@ const CartSheet = () => {
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex h-[80%] flex-col">
+            className="flex h-[80%] w-full flex-col">
             <div className="flex-auto space-y-3 py-5">
               {products.map((product) => (
                 <CartProductItem key={product.id} product={product} />

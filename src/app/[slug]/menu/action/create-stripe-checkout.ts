@@ -47,7 +47,7 @@ export const createStripeCheckout = async ({
       payment_method_types: ["card", "boleto"],
       mode: "payment",
       success_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
-      cancel_url: `${origin}/${slug}/menu?${searchParams.toString()}`,
+      cancel_url: `${origin}/${slug}/menu?${consumptionMethod}`,
       metadata: {
         orderId,
       },
